@@ -70,8 +70,12 @@ export default function App() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post('/auth/login', loginForm);
-      const data = { username: loginForm.username, role: res.data.role };
+      const payload = {
+        username: loginForm.username.trim(),
+        password: loginForm.password,
+      };
+      const res = await api.post('/auth/login', payload);
+      const data = { username: payload.username, role: res.data.role };
       localStorage.setItem('token', res.data.access_token);
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
